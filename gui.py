@@ -90,12 +90,12 @@ class Graphic:
                 self.send(message)
         self.window.close()
 
-    def options(self, event, message,flag_menu, values):
+    def options(self, event, message,flag_menu):
             #menu1
             if event == '1' and flag_menu == 1:
                 message = "python adapter.py -money-get amount" # + amount
             if  event == '2' and flag_menu == 1:
-                message = "python adapter.py -money-return " + str(values['-Input-'])
+                message = "python adapter.py -money-return " # + str(values['-Input-'])
             if  event == '3' and flag_menu == 1:
                 message = "python adapter.py -coins-get" + "'tube-type', 'tube-status', 'tube-money'" # need fix
             if  event == '4' and flag_menu == 1:
@@ -132,7 +132,7 @@ class Graphic:
 
     def send(self, message):
 
-        #os.system(message)
+        os.system(message)
         sg.popup(message,'MESSAGE')
 
 
