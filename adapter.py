@@ -12,9 +12,9 @@ def communicate(dane):
     print("encoded data: ", encoded_data)
 
     print(">> tx: ", dane)
-    line = port.readline()
-    print("<< rx: ", line)
-    return line
+#    line = port.readline()
+    print("<< rx: ", "line")
+    #return line
 
 parser = argparse.ArgumentParser()
 

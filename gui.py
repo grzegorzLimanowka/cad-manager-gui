@@ -84,18 +84,18 @@ class Graphic:
                 self.window['3'].update('Device Reset Coins')
                 self.window['4'].update('Device Reset Notes')
             if event in '1234':
-                    message = self.options(event,message,flag_menu)
+                    message = self.options(event,message,flag_menu, values)
 
             if event == 'Wykonaj':
                 self.send(message)
         self.window.close()
 
-    def options(self, event, message,flag_menu):
+    def options(self, event, message,flag_menu, values):
             #menu1
             if event == '1' and flag_menu == 1:
                 message = "python adapter.py -money-get amount" # + amount
             if  event == '2' and flag_menu == 1:
-                message = "python adapter.py -money-return " # + str(values['-Input-'])
+                message = "python adapter.py -money-return "  + str(values['-Input-'])
             if  event == '3' and flag_menu == 1:
                 message = "python adapter.py -coins-get" + "'tube-type', 'tube-status', 'tube-money'" # need fix
             if  event == '4' and flag_menu == 1:
