@@ -18,8 +18,8 @@ class Graphic:
 
         #góra
         static_top = [
-            [sg.Text('Port       '), sg.Input(size=(10,1)),sg.Button("PL"),sg.Button("ENG")],
-            [sg.Text('Baudrate'), sg.Listbox(values=('115200', '9600')), sg.Button("Wykonaj")]]
+            [sg.Text('Port       '), sg.Listbox(values=('/dev/ttyUSB0', '/dev/ttyUSB1'),key='-Port-'),sg.Button("PL"),sg.Button("ENG")],
+            [sg.Text('Baudrate'), sg.Listbox(values=('115200', '9600'),key='-Bdrate-'), sg.Button("Wykonaj")]]
 
 
         #środek
@@ -47,21 +47,33 @@ class Graphic:
     def left_menu(self):
 
         flag_menu = 1 #first menu
-
-        message = ""
+        #flag_port = 0
+        #flag_bdrate = 0
+        message = {}
 
         while True:
 
             event, values = self.window.read()
-
+            #message = str(values['-Port-'])
+            print(values['-Port-'])
+            print(values['-Bdrate-'])
             if event is None or event == 'Exit':
                 break
-
-
+            # if event == values['-Port-'] and flag_port == 0:
+            #     print("działá")
+            # #message += str(values['-Port-'])
+            # #    print(values['-Port-'])
+            # #    flag_port = 1
+            # if event == values['-Bdrate-'] and flag_bdrate == 0:
+            #     #message += str(values['-Bdrate-'])
+            #     print(values['-Bdrate-'])
+            #     flag_bdrate = 1
             #left menu
             if event == 'menu1':
                 flag_menu = 1
                 self.window['1'].update('Money Get')
+                self.window['1'].update(button_color='red')
+
                 self.window['2'].update('Money Return')
                 self.window['3'].update('Coins Get')
                 self.window['4'].update('Notes Get')
@@ -87,53 +99,59 @@ class Graphic:
                     message = self.options(event,message,flag_menu, values)
 
             if event == 'Wykonaj':
+                message["Port"] = values['-Port-']
+                message["Baudrate"] = values['-Bdrate-']
+
                 self.send(message)
+                message = {}
         self.window.close()
 
-    def options(self, event, message,flag_menu, values):
+    def options(self, event, msg,flag_menu, values):
             #menu1
             if event == '1' and flag_menu == 1:
-                message = "python adapter.py -money-get amount" # + amount
-            if  event == '2' and flag_menu == 1:
-                message = "python adapter.py -money-return "  + str(values['-Input-'])
-            if  event == '3' and flag_menu == 1:
-                message = "python adapter.py -coins-get" + "'tube-type', 'tube-status', 'tube-money'" # need fix
-            if  event == '4' and flag_menu == 1:
-                message = "python adapter.py -notes-get" + "'map', 'enable', 'recycler-note', 'recycler-amount'" #.
+                msg["money-get"] = "amount" # + amount}
+            if event == '2' and flag_menu == 1:
+                msg["money-return"] =  "adapter.py -money-return " #+ str(values['-Input-'])}
+            if event == '3' and flag_menu == 1:
+                msg["coins-get"] = "'tube-type', 'tube-status', 'tube-money'" # need fix
+            if event == '4' and flag_menu == 1:
+                msg["notes-get"] = "'map', 'enable', 'recycler-note', 'recycler-amount'" #.
             #menu2
             if event == '1' and flag_menu == 2:
-                message = "python adapter.py -device-on coins"
-            if  event == '2' and flag_menu == 2:
-                message = "python adapter.py -device-on notes"
-            if  event == '3' and flag_menu == 2:
-                message = "python adapter.py -device-off coins"
-            if  event == '4' and flag_menu == 2:
-                message = "python adapter.py -device-off amount"
+                msg["device-on"] = "coins"
+            if event == '2' and flag_menu == 2:
+                msg["device-on"]= "notes"
+            if event == '3' and flag_menu == 2:
+                msg["device-off"] =  "coins"
+            if event == '4' and flag_menu == 2:
+                msg["device-off"] =  "notes"
             #menu3
             if event == '1' and flag_menu == 3:
-                message = "python adapter.py -device-enable coins"
-            if  event == '2' and flag_menu == 3:
-                message = "python adapter.py -device-enable notes"
-            if  event == '3' and flag_menu == 3:
-                message = "python adapter.py -device-disable coins"
-            if  event == '4' and flag_menu == 3:
-                message = "python adapter.py -device-disable coins"
+                msg["device-enable"] =  "coins"
+            if event == '2' and flag_menu == 3:
+                msg["device-enable"] =  "notes"
+            if event == '3' and flag_menu == 3:
+                msg["device-disable"] =  "coins"
+            if event == '4' and flag_menu == 3:
+                msg["device-disable"] =  "notes"
             #menu4
             if event == '1' and flag_menu == 4:
-                message = "python adapter.py -adapter reboot"
-            if  event == '2' and flag_menu == 4:
-                message = "python adapter.py -device_rst All"
-            if  event == '3' and flag_menu == 4:
-                message = "python adapter.py -device_rst Coins"
-            if  event == '4' and flag_menu == 4:
-                message = "python adapter.py -device_rst Notes"
+                msg["adapter" ]= "reboot"
+            if event == '2' and flag_menu == 4:
+                msg["device_rst"] =  "All"
+            if event == '3' and flag_menu == 4:
+                msg["device_rst"] =  "Coins"
+            if event == '4' and flag_menu == 4:
+                msg["device_rst"] =  "Notes"
 
-            return message
+            return msg
 
-    def send(self, message):
-
-        os.system(message)
-        sg.popup(message,'MESSAGE')
+    def send(self, mess):
+        #mess = str(str(mess).replace("\'", "\""))
+        mess = str(mess)
+        mess+=  '\r\n'
+        #os.system(mess)
+        sg.popup(mess,'')
 
 
 

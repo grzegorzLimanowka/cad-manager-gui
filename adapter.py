@@ -1,20 +1,20 @@
 import argparse
 import sys
 import datetime
-#from serial import Serial
-
+from serial import Serial
+import serial
 
 def communicate(dane):
-#    port = Serial(args.port, args.baud, timeout=10)
-#    port.write(str.encode(dane + '\r\n'))
+    port = Serial(args.port, args.baud, timeout=10)
+    port.write(str.encode(dane + '\r\n'))
 
-    encoded_data = str.encode(dane + '\r\n') 
+    encoded_data = str.encode(dane + '\r\n')
     print("encoded data: ", encoded_data)
 
     print(">> tx: ", dane)
-#    line = port.readline()
+    line = port.readline()
     print("<< rx: ", "line")
-    #return line
+    return line
 
 parser = argparse.ArgumentParser()
 
